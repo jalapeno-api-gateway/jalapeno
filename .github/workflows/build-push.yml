@@ -1,0 +1,60 @@
+name: Build and Push Container
+
+
+on:
+    push:
+        tags: [ 'v*.*.*' ]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build_topology_processor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build topology processor
+      run: |
+        make -f ./Makefile.topology topology
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and push topology processor
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./build/Dockerfile.topology
+        push: true
+        tags: ghcr.io/${{ github.repository }}/topology:${{ github.ref_name }}
+
+  build_linkstate-edge_processor:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build linkstate-edge processor
+      run: |
+        make -f ./Makefile.linkstate-edge linkstate-edge
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and push topology processor
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./build/Dockerfile.linkstate-edge
+        push: true
+        tags: ghcr.io/${{ github.repository }}/lslinknode-edge:${{ github.ref_name }}
