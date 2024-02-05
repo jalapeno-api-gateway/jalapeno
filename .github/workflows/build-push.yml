@@ -30,6 +30,7 @@ jobs:
     - name: Build and push topology processor
       uses: docker/build-push-action@v5
       with:
+        context: .
         file: ./build/Dockerfile.topology
         push: true
         tags: ghcr.io/${{ github.repository }}/topology:${{ github.ref_name }}
@@ -53,6 +54,7 @@ jobs:
     - name: Build and push topology processor
       uses: docker/build-push-action@v5
       with:
+        context: .
         file: ./build/Dockerfile.linkstate-edge
         push: true
         tags: ghcr.io/${{ github.repository }}/lslinknode-edge:${{ github.ref_name }}
