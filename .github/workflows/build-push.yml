@@ -32,7 +32,7 @@ jobs:
       with:
         file: ./build/Dockerfile.topology
         push: true
-        tags: ghcr.io/${{ github.repository }}/topology:${{ github.ref }}
+        tags: ghcr.io/${{ github.repository }}/topology:${{ github.ref_name }}
 
   build_linkstate-edge_processor:
     runs-on: ubuntu-latest
@@ -55,4 +55,4 @@ jobs:
       with:
         file: ./build/Dockerfile.linkstate-edge
         push: true
-        tags: ghcr.io/${{ github.repository }}/lslinknode-edge:${{ github.ref }}
+        tags: ghcr.io/${{ github.repository }}/lslinknode-edge:${{ github.ref_name }}
