@@ -5,25 +5,25 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lslinknode-edge
+      app: igp-graph
   template:
     metadata:
       labels:
-        app: lslinknode-edge
+        app: igp-graph
     spec:
       containers:
         - args:
             - --v
-            - "6"
+            - "5"
             - --message-server
             - "broker.jalapeno:9092"
             - --database-server
             - "http://arangodb.jalapeno:8529"
             - --database-name
             - "jalapeno"
-          image: docker.io/iejalapeno/lslinknode-edge:latest
+          image: docker.io/iejalapeno/igp-graph:latest
           imagePullPolicy: Always
-          name: lslinknode-edge
+          name: igp-graph
           volumeMounts:
             - name: credentials
               mountPath: /credentials
@@ -32,5 +32,5 @@ spec:
           secret:
             secretName: jalapeno
 metadata:
-  name: lslinknode-edge
+  name: igp-graph
   namespace: jalapeno

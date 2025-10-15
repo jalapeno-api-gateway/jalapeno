@@ -4,7 +4,7 @@ data:
   gobmp.yaml: |
 metadata:
   name: gobmp-config
-  namespace: jalapeno-collectors
+  namespace: jalapeno
 ---
 apiVersion: v1
 kind: Service
@@ -25,12 +25,13 @@ spec:
   type: NodePort
 metadata:
   name: gobmp
-  namespace: jalapeno-collectors
+  namespace: jalapeno
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gobmp
+  namespace: jalapeno
 spec:
   replicas: 1 
   selector:
@@ -47,7 +48,8 @@ spec:
           - "5"
           - --kafka-server
           - broker.jalapeno:9092
-          image: docker.io/sbezverk/gobmp:v1.0.1
+          # image: docker.io/sbezverk/gobmp:v1.0.1
+          image: docker.io/sbezverk/gobmp:latest
           imagePullPolicy: Always
           name: gobmp
           ports:
@@ -61,7 +63,5 @@ spec:
         - name: config-volume
           configMap:
             name: gobmp-config
-metadata:
-  name: gobmp
-  namespace: jalapeno-collectors
+
 
